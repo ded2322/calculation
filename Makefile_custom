@@ -1,0 +1,16 @@
+CC=g++
+FILES=main.cpp
+
+all: calculator start
+
+calculator: 
+    $(CC) $(FILES) -o compilate_file
+
+start:
+    ./compilate_file
+    @echo "Calculator successfully compiled"
+
+clean:
+    rm -rf *.o compilate_file
+
+.PHONY: all start clean
