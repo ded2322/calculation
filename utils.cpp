@@ -9,7 +9,7 @@ void skipVoidPosition(std::string_view expression, std::size_t& index){
 }
 
 bool checkIsNegativeNumber(std::string_view expression, std::size_t index) {
-    return (index + 1  < expression.length() && std::isdigit(expression[index + 1]));
+    return (index + 1  < expression.length() && expression[index] == '-' && std::isdigit(expression[index + 1]));
 }
 
 bool binaryOperators(char operators) {
@@ -45,7 +45,7 @@ int validateBrackets(std::string_view value) {
         }
     }
     if(!stack.empty()) {
-        std::cout << ("Uncorrect brackets");
+        std::cout << ("Uncorrect brackets") << '\n';
         return -1;
     }
     return 0;
@@ -53,17 +53,15 @@ int validateBrackets(std::string_view value) {
 
 
 int parseNumber(std::string_view expression, std::size_t& index) { 
-    // skipVoidPosition(expression, index);
-
+    
     bool is_negative = checkIsNegativeNumber(expression, index);
-    // Skip position
+
     if (is_negative)
         ++index;
     
-    int result {0}; 
-    while(index < expression.length() && std::isdigit(expression[index])) {
+    int result {0};
+    for (; index < expression.length() && std::isdigit(expression[index]); ++index) {
         result = result * 10 + static_cast<int>(expression[index]) - static_cast<int>('0');
-        ++index;
     }
 
     return is_negative ? -result : result;
