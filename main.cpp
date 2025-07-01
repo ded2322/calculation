@@ -59,7 +59,7 @@ int main() {
     std::string start_text { "For exit calculate input: -1\n" };
     
     TcpServer server(8080);
-    if(!server.startTcpSerer()) return -1;
+    if(!server.startTcpServer()) return -1;
     
     if(server.acceptClient()) {
         server.sendMessage(start_text);
@@ -69,7 +69,7 @@ int main() {
             server.sendMessage(entered_expression);
 
             std::string user_message { server.readMessage() };
-            if(user_message.c_str() == "-1") {
+            if(user_message == "-1") {
                 server.closeUserConnection();
                 break;
             }
@@ -77,7 +77,8 @@ int main() {
             std::cout << "User input: " << user_message << "\n";
                 
             if (validateBrackets(user_message) > -1) {
-                std::string result = std::to_string(calulateExpresion(user_message));
+                std::string result { "Your result: " + std::to_string(calulateExpresion(user_message)) + "\n"};
+                std::cout << result << "\n";
                 server.sendMessage(result);
             }
 

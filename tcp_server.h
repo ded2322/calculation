@@ -13,7 +13,7 @@ class TcpServer {
         TcpServer (int port);
         ~TcpServer();
 
-        bool startTcpSerer();
+        bool startTcpServer();
         void closeUserConnection();
         void closeTcpServer();
         bool acceptClient();
