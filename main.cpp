@@ -6,8 +6,9 @@
 
 #include "utils.h"
 #include "calculate.h"
+#include "tcp_server.h"
 
-int calulateExpresion(std::string_view expression) {
+int calulateExpresion(const std::string& expression) {
     std::stack<int> operands;
     std::stack<char> operators;
 
@@ -55,17 +56,46 @@ int calulateExpresion(std::string_view expression) {
 }
 
 int main() {
-    std::cout << "For exit calc input: -1\n";
-    while (true) {
-        std::string input;
-        inputUser(input);
+    std::string start_text { "For exit calculate input: -1\n" };
+    
+    TcpServer server(8080);
+    if(!server.startTcpSerer()) return -1;
+    
+    if(server.acceptClient()) {
+        server.sendMessage(start_text);
 
-        if (input == "-1") break;
+        while(true) {
+            std::string entered_expression {"Entered expression: "};
+            server.sendMessage(entered_expression);
 
-        // Before start calculate expression, check brackets
-        if (validateBrackets(input) > -1) {
-            std::cout << calulateExpresion(input) << '\n';
-            // std::cout << calulateExpresion("((10+2)*2)") << '\n';
+            std::string user_message { server.readMessage() };
+            if(user_message.c_str() == "-1") {
+                server.closeUserConnection();
+                break;
+            }
+
+            std::cout << "User input: " << user_message << "\n";
+                
+            if (validateBrackets(user_message) > -1) {
+                std::string result = std::to_string(calulateExpresion(user_message));
+                server.sendMessage(result);
+            }
+
         }
+
+        server.closeTcpServer();
     }
+
+    // while (true) {
+    //     std::string input;
+    //     inputUser(input);
+
+    //     if (input == "-1") break;
+
+    //     // Before start calculate expression, check brackets
+    //     if (validateBrackets(input) > -1) {
+    //         std::cout << calulateExpresion(input) << '\n';
+    //         // std::cout << calulateExpresion("((10+2)*2)") << '\n';
+    //     }
+    // }
 }
