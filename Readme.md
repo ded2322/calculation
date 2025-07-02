@@ -3,7 +3,7 @@
 ## Требования 
 - C++ v.17
 - g++
-- Cmake 3.0+
+- Cmake 3.10+
 ## Make and Cmake
 В этом проекте присуствует make-файл:  Makefile_custom 
 Так-же Cmake txt файл

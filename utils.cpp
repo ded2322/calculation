@@ -3,13 +3,13 @@
 #include <string>
 #include <charconv>
 
-void skipVoidPosition(std::string_view expression, std::size_t& index){
-    if(index < expression.length() && std::isspace(expression[index]))
+void skipVoidPosition(std::string_view expression, std::size_t& index) {
+    if (index < expression.length() && std::isspace(expression[index]))
         ++index;
 }
 
 bool checkIsNegativeNumber(std::string_view expression, std::size_t index) {
-    return (index + 1  < expression.length() && expression[index] == '-' && std::isdigit(expression[index + 1]));
+    return (index + 1 < expression.length() && expression[index] == '-' && std::isdigit(expression[index + 1]));
 }
 
 bool binaryOperators(char operators) {
@@ -21,11 +21,11 @@ int getOperatorPriority(char expression) {
     case '+':
     case '-':
         return 1;
-    case '*': 
+    case '*':
         return 2;
-    case '/': 
+    case '/':
         return 2;
-    default :
+    default:
         return -1;
     }
 }
@@ -33,10 +33,10 @@ int getOperatorPriority(char expression) {
 int validateBrackets(std::string_view value) {
     std::stack<char> stack;
 
-    for(char a : value){
-        if (a == '(') 
+    for (char a : value) {
+        if (a == '(')
             stack.push(a);
-        else if(a == ')') {
+        else if (a == ')') {
             if (stack.empty()) {
                 std::cout << "Uncorrect brackets, not found open brackets";
                 return -1;
@@ -44,7 +44,7 @@ int validateBrackets(std::string_view value) {
             stack.pop();
         }
     }
-    if(!stack.empty()) {
+    if (!stack.empty()) {
         std::cout << ("Uncorrect brackets") << '\n';
         return -1;
     }
@@ -52,16 +52,18 @@ int validateBrackets(std::string_view value) {
 }
 
 
-int parseNumber(std::string_view expression, std::size_t& index) { 
-    
-    bool is_negative = checkIsNegativeNumber(expression, index);
+int parseNumber(std::string_view expression, std::size_t& global_index) {
+    std::size_t local_index{ global_index };
 
+    bool is_negative = checkIsNegativeNumber(expression, global_index);
     if (is_negative)
-        ++index;
-    
-    int result {0};
-    for (; index < expression.length() && std::isdigit(expression[index]); ++index) {
-        result = result * 10 + static_cast<int>(expression[index]) - static_cast<int>('0');
+        ++local_index;
+
+    int result{ 0 };
+    while (local_index < expression.length()) {
+        global_index = local_index;
+        result = result * 10 + static_cast<int>(expression[local_index]) - static_cast<int>('0');
+        ++local_index;
     }
 
     return is_negative ? -result : result;

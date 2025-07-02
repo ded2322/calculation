@@ -11,6 +11,6 @@ int getOperatorPriority(char expression);
 
 int validateBrackets(std::string_view value);
 
-int parseNumber(std::string_view expression, std::size_t& index);
+int parseNumber(std::string_view expression, std::size_t& global_index);
 
 void inputUser(std::string& input);
