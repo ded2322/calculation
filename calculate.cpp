@@ -15,7 +15,7 @@ int calculateSubValues(int a, int b, char op) {
     case '/':
         return a / b;
     default:
-        throw std::runtime_error("Unknown operand");
+        abort();
     }
 }
 
