@@ -4,8 +4,9 @@
 #include <charconv>
 
 void skipVoidPosition(std::string_view expression, std::size_t& index) {
-    if (index < expression.length() && std::isspace(expression[index]))
+    while (index < expression.length() && std::isspace(expression[index])) {
         ++index;
+    }
 }
 
 bool checkIsNegativeNumber(std::string_view expression, std::size_t index) {
@@ -16,17 +17,18 @@ bool binaryOperators(char operators) {
     return operators == '+' || operators == '-' || operators == '*' || operators == '/';
 }
 
-int getOperatorPriority(char expression) {
+int getOperator(const char& expression) {
     switch (expression) {
     case '+':
+        return '+';
     case '-':
-        return 1;
+        return '-';
     case '*':
-        return 2;
+        return '*';
     case '/':
-        return 2;
+        return '/';
     default:
-        return -1;
+        abort();
     }
 }
 
@@ -69,7 +71,9 @@ int parseNumber(std::string_view expression, std::size_t& global_index) {
     return is_negative ? -result : result;
 }
 
-void inputUser(std::string& input) {
+std::string inputUser() {
     std::cout << "Input data: ";
+    std::string input;
     std::getline(std::cin, input);
+    return input;
 }

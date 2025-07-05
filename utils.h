@@ -7,10 +7,10 @@ bool checkIsNegativeNumber(std::string_view expression, std::size_t index);
 
 bool binaryOperators(char operators);
 
-int getOperatorPriority(char expression);
+int getOperator(const char& expression);
 
 int validateBrackets(std::string_view value);
 
 int parseNumber(std::string_view expression, std::size_t& global_index);
 
-void inputUser(std::string& input);
+std::string inputUser();

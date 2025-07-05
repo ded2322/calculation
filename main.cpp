@@ -10,14 +10,15 @@
 int main() {
     std::cout << "For exit calc input: -1\n";
     while (true) {
-        std::string input;
-        inputUser(input);
+        //std::string input{ inputUser() };
+        std::string input{ "1+2"};
 
-        if (input == "-1") break;
+        //if (input == "-1") break;
 
         // Before start calculate expression, check brackets
-        if (validateBrackets(input) > -1) {
-            std::cout << calulateExpresion(input) << '\n';
-        }
+        //if (validateBrackets(input) > -1) {
+            // std::cout << calulateExpresion(input) << '\n';
+            calculateEasyExp(input);
+        //}
     }
 }
